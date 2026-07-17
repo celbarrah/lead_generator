@@ -995,8 +995,9 @@
     setTimeout(() => btn.style.transform = '', 160);
   }
 
-  // TODO: if your GHL setup requires it, paste your locationId here
-  const GHL_LOCATION_ID = '';
+  // Sends the raw answers to your n8n webhook. n8n then builds the GHL
+  // contact payload server-side (see the curl file for that step).
+  const WEBHOOK_URL = 'https://radouane.automatespot.com/webhook-test/e0104a46-9fb3-4acd-b608-2961c6dd7b54';
 
   async function submit() {
     const btn = document.getElementById('btnNext');
@@ -1009,34 +1010,24 @@
       email: data.email,
       phone: data.tel,
       companyName: data.co,
-      tags: ['Candidature LP'],
-      source: 'LP Candidature - Session Strategie & Acquisition',
-      customFields: [
-        { key: 'secteur_dactivit', fieldValue: data.secteur },
-        { key: 'leads_gnrs_par_mois', fieldValue: data.leads },
-        { key: 'comment_traitezvous_vos_leads_actuellement_', fieldValue: data.traitement },
-        { key: 'taille_de_votre_base_clients', fieldValue: data.base },
-        { key: 'votre_panier_moyen_par_client', fieldValue: data.panier },
-        { key: 'votre_principal_point_de_friction', fieldValue: data.pain },
-        { key: 'objectif_de_nouveaux_clients_par_mois', fieldValue: data.objectif },
-        { key: 'job_title', fieldValue: data.poste }
-      ]
+      secteur: data.secteur,
+      leads: data.leads,
+      traitement: data.traitement,
+      base: data.base,
+      panier: data.panier,
+      pain: data.pain,
+      objectif: data.objectif,
+      poste: data.poste
     };
 
-    if (GHL_LOCATION_ID) payload.locationId = GHL_LOCATION_ID;
-
     try {
-      await fetch('https://services.leadconnectorhq.com/contacts', {
+      await fetch(WEBHOOK_URL, {
         method: 'POST',
-        headers: {
-          'Authorization': 'Bearer pit-492488b9-74e7-445d-a955-5448692a2f35',
-          'Version': '2023-02-21',
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
     } catch (err) {
-      console.error('GHL contact creation failed:', err);
+      console.error('Webhook submission failed:', err);
     }
 
     window.location.href = 'clientx_merci_final.html';
