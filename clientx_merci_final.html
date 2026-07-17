@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidature reçue — ClientX</title>
+<style>
+  :root {
+    --green: #16A34A;
+    --green-light: #F0FDF4;
+    --black: #0A0A0A;
+    --gray: #6B7280;
+    --border: #E7E5E4;
+    --light: #F5F5F4;
+    --white: #FFFFFF;
+    --red: #DC2626;
+    --red-light: #FEF2F2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    height: 64px;
+    padding: 0 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo { font-size: 19px; font-weight: 800; letter-spacing: -0.5px; }
+  .logo em { color: var(--green); font-style: normal; }
+
+  .hero {
+    padding: 148px 60px 80px;
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .check {
+    width: 60px; height: 60px;
+    background: var(--green-light);
+    border: 1.5px solid #BBF7D0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 28px;
+    color: var(--green);
+    font-size: 24px;
+    animation: pop .45s cubic-bezier(.175,.885,.32,1.275);
+  }
+
+  @keyframes pop {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 5.5vw, 68px);
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 1.02;
+    margin-bottom: 18px;
+  }
+
+  .hero h1 em { color: var(--green); font-style: normal; }
+
+  .hero p {
+    font-size: 17px;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+
+  .alert {
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--red-light);
+    border: 1px solid #FECACA;
+    border-radius: 10px;
+    padding: 16px 22px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    text-align: left;
+    font-size: 13px;
+    color: #7F1D1D;
+    line-height: 1.6;
+  }
+
+  .alert strong { color: var(--red); }
+
+  /* MAIN */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 80px;
+    max-width: 1160px;
+    margin: 80px auto 0;
+    padding: 0 60px 100px;
+    align-items: start;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+
+  .col-title {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+
+  .col-sub {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  /* CALENDAR */
+  .cal-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .cal-head {
+    background: var(--black);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cal-head-l {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cal-ic {
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .cal-meta h4 { font-size: 13px; font-weight: 700; color: var(--white); }
+  .cal-meta p { font-size: 11px; color: #6B7280; }
+
+  .cal-dur {
+    font-size: 12px;
+    color: #6B7280;
+    border: 1px solid #374151;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .cal-body {
+    min-height: 400px;
+    background: var(--light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 28px;
+    text-align: center;
+  }
+
+  .cal-body h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+  .cal-body p { font-size: 13px; color: var(--gray); max-width: 340px; line-height: 1.6; margin-bottom: 20px; }
+
+  .cal-note {
+    font-size: 12px;
+    color: #9CA3AF;
+    border: 1px dashed var(--border);
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-style: italic;
+  }
+
+  /* RIGHT */
+  .right { display: flex; flex-direction: column; gap: 24px; }
+
+  /* VALUE */
+  .value-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .v-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .v-row:last-child { border-bottom: none; }
+  .v-left { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+  .v-right { font-size: 12px; color: var(--gray); text-decoration: line-through; }
+
+  .v-total {
+    background: var(--black);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .v-total-l { color: var(--white); font-size: 13px; font-weight: 700; }
+  .v-total-r { display: flex; align-items: center; gap: 10px; }
+  .v-old { font-size: 12px; color: #4B5563; text-decoration: line-through; }
+  .v-new { font-size: 20px; font-weight: 900; color: #4ADE80; letter-spacing: -1px; }
+
+  /* RULES */
+  .rules-card {
+    background: var(--red-light);
+    border: 1px solid #FECACA;
+    border-radius: 12px;
+    padding: 20px 18px;
+  }
+
+  .rules-card h4 {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+  }
+
+  .r-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .r-list li {
+    font-size: 13px;
+    color: #7F1D1D;
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+  }
+
+  .r-list li::before { content: '·'; font-weight: 900; flex-shrink: 0; }
+
+  .ban {
+    margin-top: 14px;
+    background: #FEE2E2;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  /* STEPS */
+  .steps-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .steps-head {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+
+  .s-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .s-row:last-child { border-bottom: none; }
+
+  .s-n {
+    width: 22px; height: 22px;
+    background: var(--green-light);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .s-c h5 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .s-c p { font-size: 12px; color: var(--gray); line-height: 1.4; }
+  .s-t { margin-left: auto; font-size: 11px; color: var(--green); font-weight: 600; flex-shrink: 0; margin-top: 2px; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  footer p { font-size: 12px; color: #9CA3AF; }
+  footer a { color: #9CA3AF; font-size: 12px; text-decoration: none; }
+
+  @media (max-width: 920px) {
+    nav { padding: 0 24px; }
+    .hero { padding: 110px 24px 48px; }
+    .main { grid-template-columns: 1fr; padding: 48px 24px 60px; gap: 40px; }
+    footer { flex-direction: column; gap: 10px; padding: 20px 24px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Client<em>X</em></div>
+</nav>
+
+<div class="hero">
+  <div class="check">✓</div>
+  <h1>Candidature<br><em>reçue.</em></h1>
+  <p>Nos consultants vont analyser votre dossier avant votre session. Choisissez votre créneau ci-dessous.</p>
+  <div class="alert">
+    <div style="font-size:18px;flex-shrink:0;">⚠️</div>
+    <div>
+      Cette session a une valeur de <strong>15 000 MAD</strong> — offerte gratuitement.
+      En cas d'empêchement, prévenez-nous <strong>48h à l'avance</strong>.
+      Tout no-show entraîne un <strong>bannissement définitif</strong>.
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- CALENDAR -->
+  <div>
+    <div class="eyebrow">Calendrier</div>
+    <h2 class="col-title">Choisissez votre créneau</h2>
+    <p class="col-sub">Confirmation immédiate par email. Votre dossier sera prêt avant la session.</p>
+
+    <div class="cal-card">
+      <div class="cal-head">
+        <div class="cal-head-l">
+          <div class="cal-ic">🤖</div>
+          <div class="cal-meta">
+            <h4>Session Stratégie & Acquisition — ClientX</h4>
+            <p>Consultants ClientX · Visio ou téléphone</p>
+          </div>
+        </div>
+        <div class="cal-dur">⏱ 45 min</div>
+      </div>
+      <div class="cal-body">
+        <h3>Sélectionnez votre date</h3>
+        <p>Votre dossier sera analysé avant la session. Aucune préparation requise de votre côté.</p>
+        <iframe src="https://link.clientx.ai/widget/booking/51RZQPaa7WdsUiefZ3FL" style="width: 100%;height: 650px;border:none;overflow: hidden;" scrolling="no" id="51RZQPaa7WdsUiefZ3FL_1784297661262"></iframe>
+        <script src="https://link.clientx.ai/js/form_embed.js" type="text/javascript"></script>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+
+    <div>
+      <div class="eyebrow">Ce que vous recevez</div>
+      <div class="value-card">
+        <div class="v-row">
+          <div class="v-left">🔍 Analyse de vos points de perte</div>
+          <span class="v-right">5 000 MAD</span>
+        </div>
+        <div class="v-row">
+          <div class="v-left">⚡ Stratégie d'acquisition sur mesure</div>
+          <span class="v-right">7 000 MAD</span>
+        </div>
+        <div class="v-row">
+          <div class="v-left">🎯 Système, process & tunnel prêt</div>
+          <span class="v-right">3 000 MAD</span>
+        </div>
+        <div class="v-total">
+          <span class="v-total-l">Total offert</span>
+          <div class="v-total-r">
+            <span class="v-old">15 000 MAD</span>
+            <span class="v-new">Gratuit</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rules-card">
+      <h4>Règles de la session</h4>
+      <ul class="r-list">
+        <li>Prévenez-nous <strong>48h à l'avance</strong> en cas d'empêchement.</li>
+        <li>Soyez disponible à l'heure exacte — la session dure 45 minutes.</li>
+        <li>Ayez vos données à portée : leads mensuels, objectifs, chiffre d'affaires.</li>
+      </ul>
+      <div class="ban">🚫 No-show = bannissement définitif.</div>
+    </div>
+
+    <div class="steps-card">
+      <div class="steps-head">Prochaines étapes</div>
+      <div class="s-row">
+        <div class="s-n">1</div>
+        <div class="s-c">
+          <h5>Choisissez votre créneau</h5>
+          <p>Confirmation immédiate par email.</p>
+        </div>
+        <span class="s-t">Maintenant</span>
+      </div>
+      <div class="s-row">
+        <div class="s-n">2</div>
+        <div class="s-c">
+          <h5>Nos consultants préparent votre dossier</h5>
+          <p>Analyse personnalisée avant la session.</p>
+        </div>
+        <span class="s-t">Avant J</span>
+      </div>
+      <div class="s-row">
+        <div class="s-n">3</div>
+        <div class="s-c">
+          <h5>Session de 45 minutes</h5>
+          <p>Stratégie + système + tunnel prêt.</p>
+        </div>
+        <span class="s-t">Jour J</span>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 ClientX — Groupe WBZ · Certifié ISO 9001 · Casablanca · Paris · Dubaï</p>
+  <div style="display:flex;gap:20px;">
+    <a href="#">Confidentialité</a>
+    <a href="#">clientx.ai</a>
+  </div>
+</footer>
+
+</body>
+</html>
