@@ -969,7 +969,9 @@
     if (cur === 8) {
       const f = ['prenom','nom','poste','co','email','tel'];
       for (let id of f) {
-        if (!document.getElementById(id).value) { shake(); return; }
+        const val = document.getElementById(id).value;
+        if (!val) { shake(); return; }
+        data[id] = val;
       }
       submit(); return;
     }
